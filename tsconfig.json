@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist", //Onde será gerado o código typescript
+    "module": "CommonJS", // Permitir import export ou invés de require
+    "target": "ES2019", // Qual versão do ecmaescript será utilizado
+    "esModuleInterop": true, // Realializa a conversão de modulos que ainda utilizam o require para import/export
+    "allowJs": true // Permite códigos Javascript
+  }
+}
