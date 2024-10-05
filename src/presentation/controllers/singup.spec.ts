@@ -106,7 +106,7 @@ describe("SingUpController", () => {
   test("Should return 400 if an invalid is provided", () => {
     const { sut, emailValidatorStub } = makeSut(); //System under test
 
-    //Change value to a function
+    //Change value to reuurn a function
     jest.spyOn(emailValidatorStub, "isValid").mockReturnValueOnce(false);
 
     const httpRequest = {
@@ -120,5 +120,23 @@ describe("SingUpController", () => {
     const httpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new InvalidParamError("email"));
+  });
+
+  test("Should call EmailValidator with correct email", () => {
+    const { sut, emailValidatorStub } = makeSut(); //System under test
+
+    //Change value to reuurn a function
+    const isValidSpy = jest.spyOn(emailValidatorStub, "isValid");
+
+    const httpRequest = {
+      body: {
+        name: "any_name",
+        email: "any_email@mail.com",
+        password: "any_password",
+        passwordConfirmation: "any_password",
+      },
+    };
+    const httpResponse = sut.handle(httpRequest);
+    expect(isValidSpy).toHaveBeenCalledWith("any_email@mail.com");
   });
 });
