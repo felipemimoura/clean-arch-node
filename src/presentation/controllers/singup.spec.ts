@@ -1,9 +1,14 @@
 import { MissingParamError } from "../errors/missing-param-error";
 import { SingUpController } from "./singup";
 
+//Factory
+const makeSut = (): SingUpController => {
+  return new SingUpController();
+};
+
 describe("SingUpController", () => {
   test("Should return 400 if no name is provided", () => {
-    const sut = new SingUpController(); //System under test
+    const sut = makeSut() //System under test
     const httpRequest = {
       body: {
         // name: 'any_name',
@@ -14,14 +19,14 @@ describe("SingUpController", () => {
     };
     const httpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new MissingParamError('name'));
+    expect(httpResponse.body).toEqual(new MissingParamError("name"));
   });
 
   test("Should return 400 if no email is provided", () => {
-    const sut = new SingUpController(); //System under test
+    const sut = makeSut() //System under test
     const httpRequest = {
       body: {
-        name: 'any_name',
+        name: "any_name",
         // email: "any_mail@mail.com",
         password: "any_password",
         passwordConfirmation: "any_password",
@@ -29,14 +34,14 @@ describe("SingUpController", () => {
     };
     const httpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new MissingParamError('email'));
+    expect(httpResponse.body).toEqual(new MissingParamError("email"));
   });
 
   test("Should return 400 if no password is provided", () => {
-    const sut = new SingUpController(); //System under test
+    const sut = makeSut() //System under test
     const httpRequest = {
       body: {
-        name: 'any_name',
+        name: "any_name",
         email: "any_mail@mail.com",
         // password: "any_password",
         passwordConfirmation: "any_password",
@@ -44,14 +49,14 @@ describe("SingUpController", () => {
     };
     const httpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new MissingParamError('password'));
+    expect(httpResponse.body).toEqual(new MissingParamError("password"));
   });
 
   test("Should return 400 if no passwordConfirmation is provided", () => {
-    const sut = new SingUpController(); //System under test
+    const sut = makeSut() //System under test
     const httpRequest = {
       body: {
-        name: 'any_name',
+        name: "any_name",
         email: "any_mail@mail.com",
         password: "any_password",
         // passwordConfirmation: "any_password",
@@ -59,6 +64,8 @@ describe("SingUpController", () => {
     };
     const httpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirmation'));
+    expect(httpResponse.body).toEqual(
+      new MissingParamError("passwordConfirmation")
+    );
   });
 });
