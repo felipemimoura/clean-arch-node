@@ -9,17 +9,32 @@ interface SutType {
 
 //Factory
 const makeSut = (): SutType => {
-  class EmailValidatorStub implements EmailValidator {
-    isValid(email: string): boolean {
-      return true;
-    }
-  }
-  const emailValidatorStub = new EmailValidatorStub();
+  const emailValidatorStub = makeEmailValidator();
   const sut = new SingUpController(emailValidatorStub);
   return {
     sut,
     emailValidatorStub,
   };
+};
+
+const makeEmailValidator = (): EmailValidator => {
+  class EmailValidatorStub implements EmailValidator {
+    isValid(email: string): boolean {
+      return true;
+    }
+  }
+
+  return new EmailValidatorStub();
+};
+
+const makeEmailValidatorWhithError = (): EmailValidator => {
+  class EmailValidatorStub implements EmailValidator {
+    isValid(email: string): boolean {
+      throw new Error();
+    }
+  }
+
+  return new EmailValidatorStub();
 };
 
 describe("SingUpController", () => {
@@ -135,17 +150,12 @@ describe("SingUpController", () => {
         passwordConfirmation: "any_password",
       },
     };
-    const httpResponse = sut.handle(httpRequest);
+    sut.handle(httpRequest);
     expect(isValidSpy).toHaveBeenCalledWith("any_email@mail.com");
   });
 
   test("Should return 500 if EmailValidator throws", () => {
-    class EmailValidatorStub implements EmailValidator {
-      isValid(email: string): boolean {
-        throw new Error();
-      }
-    }
-    const emailValidatorStub = new EmailValidatorStub();
+    const emailValidatorStub = makeEmailValidatorWhithError();
     const sut = new SingUpController(emailValidatorStub);
 
     const httpRequest = {
