@@ -1,20 +1,27 @@
-import { MissingParamError, InvalidParamError, ServerError } from "../errors";
 import { SingUpController } from "./singup";
-import { EmailValidator } from "../protocols";
-import { AccountModel } from "../../domain/usecases/models/account";
-import { AddAccount, AddAccountModel } from "../../domain/usecases/add-account";
+import {
+  MissingParamError,
+  InvalidParamError,
+  ServerError,
+} from "../../errors";
+import {
+  EmailValidator,
+  AccountModel,
+  AddAccount,
+  AddAccountModel,
+} from "./singup-protocols";
 
 interface SutType {
   sut: SingUpController;
   emailValidatorStub: EmailValidator;
-  addAccountStub: AddAccount
+  addAccountStub: AddAccount;
 }
 
 //Factory
 const makeSut = (): SutType => {
   const emailValidatorStub = makeEmailValidator();
   const addAccountStub = makeAddAccount();
-  const sut = new SingUpController(emailValidatorStub,addAccountStub);
+  const sut = new SingUpController(emailValidatorStub, addAccountStub);
   return {
     sut,
     emailValidatorStub,
@@ -26,13 +33,13 @@ const makeAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
     add(account: AddAccountModel): AccountModel {
       const fakeAccount = {
-        id: 'valid_id',
-        name: 'valid_name',
-        email: 'valid_email@mail.com',
-        password: 'valid_password'
-      }
+        id: "valid_id",
+        name: "valid_name",
+        email: "valid_email@mail.com",
+        password: "valid_password",
+      };
 
-      return fakeAccount
+      return fakeAccount;
     }
   }
 
