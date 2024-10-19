@@ -16,8 +16,10 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@shelf/jest-mongodb": "^4.3.2",
     "@types/bcrypt": "^5.0.2",
     "@types/jest": "^29.5.13",
+    "@types/mongodb": "^4.0.7",
     "@types/node": "^22.7.4",
     "@types/validator": "^13.12.2",
     "git-commit-msg-linter": "^5.0.8",
@@ -30,6 +32,7 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "eslint-config-love": "^83.0.0",
+    "mongodb": "^6.9.0",
     "validator": "^13.12.0"
   }
 }
