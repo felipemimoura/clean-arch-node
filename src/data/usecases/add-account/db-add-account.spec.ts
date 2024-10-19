@@ -1,4 +1,4 @@
-import { Encrypter } from "../../protocols/encrypter";
+import { Encrypter } from "./db-add-account.protocols";
 import { DbAddAccount } from "./db-add.account";
 
 interface SutType {
@@ -40,6 +40,8 @@ describe("DbAddAccount UseCase", () => {
 
   test("Should throw if Encrypter throws ", async () => {
     const { encrypterStub, sut } = makeSut();
+
+    // Pegando um função e modificado o retorno dela
     jest
       .spyOn(encrypterStub, "encrypt")
       .mockReturnValueOnce(
