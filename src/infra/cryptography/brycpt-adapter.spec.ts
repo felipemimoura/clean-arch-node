@@ -28,4 +28,17 @@ describe("Bcrypte addpater", () => {
 
     expect(result).toBe("hash");
   });
+
+  test("Should throws if brcypt thrws", async () => {
+    const sut = makeSut();
+
+    // Pegando um função e modificado o retorno dela
+    jest.spyOn(bcrypt, 'hash').mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const promise = sut.encrypt("any_value");
+
+    await expect(promise).rejects.toThrow();
+  });
 });
